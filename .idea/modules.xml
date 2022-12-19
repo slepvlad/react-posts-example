@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/become-polyglot.iml" filepath="$PROJECT_DIR$/.idea/become-polyglot.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/react-posts-example.iml" filepath="$PROJECT_DIR$/.idea/react-posts-example.iml" />
     </modules>
   </component>
 </project>
