@@ -41,7 +41,7 @@
     transition: all 500ms ease-in;
 }
 
-.navbar{
+.navbar {
     height: 50px;
     width: 100vw;
     display: flex;
@@ -50,6 +50,10 @@
     background: lightgrey;
 }
 
-.navbar__lines{
+.navbar__lines {
     margin-left: auto;
+}
+
+.post__btns {
+    display: flex;
 }
