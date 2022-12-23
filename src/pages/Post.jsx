@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import '../styles/App.css'
 import {usePosts} from "../hooks/UsePost";
 import {useFetching} from "../hooks/UseFetching";
@@ -11,6 +11,7 @@ import MyLoader from "../components/ui/loader/MyLoader";
 import PostList from "../components/PostList";
 import MyPagination from "../components/ui/pagination/MyPagination";
 import MyButton from "../components/ui/button/MyButton";
+import {useObserver} from "../hooks/useObserver";
 
 
 function Post() {
@@ -20,14 +21,18 @@ function Post() {
     const [totalPages, setTotalPages] = useState(0);
     const [limit, setLimit] = useState(10);
     const [page, setPage] = useState(1);
-
+    const lastElement = useRef();
 
 
     const sortedAndSearchPost = usePosts(posts, filter.sort, filter.query);
     const [fetchPosts, isPostLoading, postError] = useFetching(async () => {
         const response = await PostService.getAll(limit, page);
-        setPosts(response.data);
+        setPosts([...posts, ...response.data]);
         setTotalPages(getPagesCount(response.headers['x-total-count'], limit))
+    })
+
+    useObserver(lastElement, page < totalPages, isPostLoading, () => {
+        setPage(page + 1)
     })
 
     useEffect(() => {
@@ -45,7 +50,6 @@ function Post() {
 
     const changePage = (page) => {
         setPage(page)
-        fetchPosts(page, limit)
     }
 
     return (
@@ -62,13 +66,12 @@ function Post() {
             <PostFilter filter={filter} setFilter={setFilter}/>
             {postError && <h1>Error: {postError}</h1>}
             {isPostLoading
-                ?
+                &&
                 <div style={{display: 'flex', justifyContent: 'center', marginTop: '50px'}}>
                     <MyLoader/>
-                </div>
-                :
-                <PostList remove={removePost} posts={sortedAndSearchPost} title={'Posts list 1'}/>
-            }
+                </div>}
+            <PostList remove={removePost} posts={sortedAndSearchPost} title={'Posts list 1'}/>
+            <div ref={lastElement} style={{height: 20, background: 'red'}}/>
             <MyPagination page={page} changePage={changePage} totalPages={totalPages}/>
         </div>
     );
