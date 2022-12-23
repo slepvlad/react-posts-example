@@ -12,7 +12,7 @@ import {useFetching} from "./hooks/UseFetching";
 import {getPagesCount} from "./utils/page";
 import MyPagination from "./components/ui/pagination/MyPagination";
 
-function App() {
+function Post() {
     const [posts, setPosts] = useState([]);
     const [filter, setFilter] = useState({sort: '', query: ''});
     const [modal, setModal] = useState(false);
@@ -73,4 +73,4 @@ function App() {
     );
 }
 
-export default App;
+export default Post;
